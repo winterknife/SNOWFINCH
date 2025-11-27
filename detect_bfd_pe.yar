@@ -6,12 +6,15 @@ rule detect_bfd_pe {
         description = "Detect binaries linked with bfd"
         version = "1.0"
         date = "2025-11-25"
-        modified = "2025-11-25"
+        modified = "2025-11-27"
         sharing = "TLP:BLACK"
 
     condition:
         // PE file
         pe.is_pe
+        and
+        // BFD linker (and LLD linker) are incapable of emitting the PE Rich header
+        not defined pe.rich_signature.length
         and
         (
             // GNU ld (GNU Binutils) 2.30
@@ -21,6 +24,6 @@ rule detect_bfd_pe {
             pe.linker_version.minor >= 30
         )
         and
-        // As far as I know, only the bfd linker is capable of producing such binaries
+        // As far as I know, only the BFD linker is capable of producing such binaries
         pe.characteristics & pe.LINE_NUMS_STRIPPED != 0
 }
