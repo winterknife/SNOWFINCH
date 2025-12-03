@@ -4,7 +4,7 @@ rule detect_peb_access {
         description = "Detect 64-bit PEB access using some commonly used techniques"
         version = "1.0"
         date = "2025-12-02"
-        modified = "2025-12-02"
+        modified = "2025-12-03"
         sharing = "TLP:BLACK"
 
     strings:
